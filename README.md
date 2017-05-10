@@ -1,4 +1,10 @@
 # Imaginary client
+[![Latest Stable Version](https://poser.pugx.org/arjanwestdorp/imaginary-client/v/stable?format=flat-square)](https://packagist.org/packages/arjanwestdorp/imaginary-client)
+[![License](https://poser.pugx.org/arjanwestdorp/imaginary-client/license?format=flat-square)](https://packagist.org/packages/arjanwestdorp/imaginary-client)
+[![Build Status](https://img.shields.io/travis/arjanwestdorp/imaginary-client/master.svg?style=flat-square)](https://travis-ci.org/arjanwestdorp/imaginary-client)
+[![Quality Score](https://img.shields.io/scrutinizer/g/arjanwestdorp/imaginary-client.svg?style=flat-square)](https://scrutinizer-ci.com/g/arjanwestdorp/imaginary-client)
+[![Coverage](https://img.shields.io/scrutinizer/coverage/g/arjanwestdorp/imaginary-client.svg?style=flat-square)](https://scrutinizer-ci.com/g/arjanwestdorp/imaginary-client)
+
 Client for the imaginary image service. Imaginary is a service build to resize images on the fly. Unfortunately that service is not open sourced yet.
 
 ## Installation
