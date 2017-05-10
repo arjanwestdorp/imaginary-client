@@ -156,4 +156,14 @@ class ClientTest extends TestCase
         $this->client->fetch('https://www.google.com/logo.jpg')
             ->landscape();
     }
+
+    /** @test */
+    function it_will_show_the_url_string_when_echoing_the_object()
+    {
+        $url = $this->client->fetch('https://www.google.com/logo.jpg')
+            ->width(100);
+
+        $this->assertEquals('https://imaginary.com/imaginary/image/fetch/w_100/https://www.google.com/logo.jpg', $url);
+        $this->assertEquals('https://imaginary.com/imaginary/image/fetch/w_100/https://www.google.com/logo.jpg', $url->url());
+    }
 }

@@ -95,7 +95,6 @@ class Client
      */
     public function fetch($url)
     {
-        // todo: url validation?
         $this->key = $url;
 
         return $this;
@@ -205,5 +204,15 @@ class Client
         $this->manipulations['w'] = $width;
 
         return $this;
+    }
+
+    /**
+     * Return the url for this image.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->url();
     }
 }
