@@ -205,4 +205,14 @@ class Client
 
         return $this;
     }
+
+    /**
+     * Return the url for this image.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->url();
+    }
 }
