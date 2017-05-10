@@ -95,7 +95,6 @@ class Client
      */
     public function fetch($url)
     {
-        // todo: url validation?
         $this->key = $url;
 
         return $this;
