@@ -26,7 +26,7 @@ $client->fetch('http://www.test.com/test.jpg')
 ~~~
 
 ### Predefined definitions
-You can add predefined sets of manipulations. The idea is that you can reuse the same manipulation multiple times through your whole application by defining it only once.
+You can add predefined sets of manipulations. The idea is that you can reuse the same manipulation multiple times in your whole application by defining it only once.
 ~~~
 $client->define('landscape', function($imaginary){
     $imaginary->width(400)
@@ -49,18 +49,18 @@ Manipulate the width of the image in pixels.
 Manipulate the height of the image in pixels.
 
 #### fit($gravity = null)
-Fit the resizing in the given dimensions (width, height). By setting the gravity you can mark the position which the image will be cutout from. By default it will cutout from the center.
+Fit the resizing in the given dimensions (width, height). By setting the gravity you can mark the position which the cutout will be taken from. By default it will cutout from the center.
 Options are: 
 - top-left
 - top
 - top-right
 - left
-- center (default)
 - right
+- center (default)
 - bottom-left
 - bottom
 - bottom-right
 
 #### circle($radius = 'max')
-Make a circle image. Setting no radius uses the size of the image and make it a circle. By setting a radius the circle will be that size. If the image is bigger then the radius it will automatically use the `fit('center')` manipulation before making a circle.
-The circle manipulation will be called after the resizing manipulations like width and height.
+Make a circle image. Setting no radius, it will use the size of the image and make it a circle. By setting a radius the image will be resized to match that radius. If the image is bigger then the radius it will automatically use the `fit('center')` manipulation before making a circle.
+The circle manipulation will be called after the resizing manipulations like width and height, so you can resize the image to your needs before applying the circle.
