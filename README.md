@@ -70,3 +70,16 @@ Options are:
 #### circle($radius = 'max')
 Make a circle image. Setting no radius, it will use the size of the image and make it a circle. By setting a radius the image will be resized to match that radius. If the image is bigger then the radius it will automatically use the `fit('center')` manipulation before making a circle.
 The circle manipulation will be called after the resizing manipulations like width and height, so you can resize the image to your needs before applying the circle.
+
+## Security
+
+If you discover any security issues, please email arjanwestdorp@gmail.com instead of creating an issue.
+
+## Credits
+
+- [Arjan Westdorp](https://github.com/arjanwestdorp)
+- [All Contributors](../../contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
