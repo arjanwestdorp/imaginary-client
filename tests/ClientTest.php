@@ -43,6 +43,15 @@ class ClientTest extends TestCase
         $client = new Client(['url' => 'https://imaginary.com']);
         $client->fetch('https://www.google.com/logo.jpg')->url();
     }
+    
+    /** @test */
+    function it_will_throw_an_exception_if_the_config_values_are_null()
+    {
+        $this->expectException(InvalidConfigException::class);
+
+        $client = new Client(['url' => null, 'client' => null]);
+        $client->fetch('https://www.google.com/logo.jpg')->url();
+    }
 
     /** @test */
     function it_can_generate_a_url_to_fetch_an_image()
