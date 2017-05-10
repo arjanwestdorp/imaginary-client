@@ -1,5 +1,5 @@
 # Imaginary client
-Client for the imaginary image service.
+Client for the imaginary image service. Imaginary is a service build to resize images on the fly. Unfortunately that service is not open sourced yet.
 
 ## Installation
 The recommended way to install the client is through composer:
