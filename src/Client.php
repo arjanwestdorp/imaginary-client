@@ -2,28 +2,20 @@
 
 namespace ArjanWestdorp\Imaginary;
 
-use ArjanWestdorp\Imaginary\Exceptions\InvalidConfigException;
+use ArjanWestdorp\Imaginary\Exceptions\InvalidConfigurationException;
 use ArjanWestdorp\Imaginary\Exceptions\UndefinedDefinitionException;
 use Closure;
 
 class Client
 {
     /**
+     * @var Builder
+     */
+    protected $builder;
+    /**
      * @var array;
      */
     protected $definitions = [];
-    /**
-     * @var string
-     */
-    protected $key;
-    /**
-     * @var array
-     */
-    protected $manipulations;
-    /**
-     * @var string
-     */
-    protected $url;
     /**
      * @var array
      */
@@ -40,17 +32,22 @@ class Client
     }
 
     /**
-     * Check if a predefined manipulation set need to be called.
+     * Check if we can call a method on the manipulations builder.
+     * Else check if a predefined manipulation set need to be called.
      *
      * @param string $method
      * @param array $arguments
      * @return $this
+     * @throws UndefinedDefinitionException
      */
     public function __call($method, $arguments)
     {
-        if (isset($this->definitions[$method]) && is_callable($this->definitions[$method])) {
+        if (method_exists($this->builder, $method)) {
+            call_user_func_array([$this->builder, $method], $arguments);
 
-            array_unshift($arguments, $this);
+            return $this;
+        } elseif (isset($this->definitions[$method]) && is_callable($this->definitions[$method])) {
+            array_unshift($arguments, $this->builder);
 
             call_user_func_array($this->definitions[$method], $arguments);
 
@@ -58,19 +55,6 @@ class Client
         }
 
         throw UndefinedDefinitionException::definitionNotDefined($method);
-    }
-
-    /**
-     * Make a circle of the image with the given radius.
-     *
-     * @param string $radius
-     * @return $this
-     */
-    public function circle($radius = 'max')
-    {
-        $this->manipulations['r'] = $radius;
-
-        return $this;
     }
 
     /**
@@ -95,37 +79,7 @@ class Client
      */
     public function fetch($url)
     {
-        $this->key = $url;
-
-        return $this;
-    }
-
-    /**
-     * Fit the image when resizing it.
-     *
-     * @param null|string $gravity
-     * @return $this
-     */
-    public function fit($gravity = null)
-    {
-        $this->manipulations['c'] = 'fit';
-
-        if (!is_null($gravity)) {
-            $this->manipulations['g'] = $gravity;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set the desired height of the image.
-     *
-     * @param int $height
-     * @return $this
-     */
-    public function height($height)
-    {
-        $this->manipulations['h'] = $height;
+        $this->builder = new Builder($url);
 
         return $this;
     }
@@ -134,16 +88,16 @@ class Client
      * Retrieve the imaginary url.
      *
      * @return string
-     * @throws InvalidConfigException
+     * @throws InvalidConfigurationException
      */
     public function url()
     {
         if (!isset($this->config['url'])) {
-            throw InvalidConfigException::urlNotDefined();
+            throw InvalidConfigurationException::urlNotDefined();
         }
 
         if (!isset($this->config['client'])) {
-            throw InvalidConfigException::clientNotDefined();
+            throw InvalidConfigurationException::clientNotDefined();
         }
 
         return implode('/', array_filter([
@@ -151,8 +105,8 @@ class Client
             $this->config['client'],
             $this->getResourceKey(),
             $this->getTypeKey(),
-            $this->getManipulations(),
-            $this->key
+            $this->builder->getManipulations(),
+            $this->builder->getKey(),
         ]));
     }
 
@@ -176,34 +130,6 @@ class Client
     protected function getTypeKey()
     {
         return 'fetch';
-    }
-
-    /**
-     * Get the string representation of all manipulations that
-     * need to be executed on the given resource.
-     *
-     * @return string|null
-     */
-    public function getManipulations()
-    {
-        $manipulations = array_map(function ($key) {
-            return $key . '_' . $this->manipulations[$key];
-        }, array_keys($this->manipulations ?: []));
-
-        return implode(',', $manipulations);
-    }
-
-    /**
-     * Set the desired width of the image.
-     *
-     * @param int $width
-     * @return $this
-     */
-    public function width($width)
-    {
-        $this->manipulations['w'] = $width;
-
-        return $this;
     }
 
     /**

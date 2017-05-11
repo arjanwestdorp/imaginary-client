@@ -4,7 +4,7 @@ namespace ArjanWestdorp\Imaginary\Exceptions;
 
 use Exception;
 
-class InvalidConfigException extends Exception
+class InvalidConfigurationException extends Exception
 {
     /**
      * Url not defined.

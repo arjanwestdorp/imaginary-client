@@ -2,8 +2,9 @@
 
 namespace ArjanWestdorp\Imaginary\Test;
 
+use ArjanWestdorp\Imaginary\Builder;
 use ArjanWestdorp\Imaginary\Client;
-use ArjanWestdorp\Imaginary\Exceptions\InvalidConfigException;
+use ArjanWestdorp\Imaginary\Exceptions\InvalidConfigurationException;
 use ArjanWestdorp\Imaginary\Exceptions\UndefinedDefinitionException;
 
 class ClientTest extends TestCase
@@ -29,7 +30,7 @@ class ClientTest extends TestCase
     /** @test */
     function it_will_throw_an_exception_if_the_url_is_not_set_in_the_config()
     {
-        $this->expectException(InvalidConfigException::class);
+        $this->expectException(InvalidConfigurationException::class);
 
         $client = new Client(['client' => 'test']);
         $client->fetch('https://www.google.com/logo.jpg')->url();
@@ -38,16 +39,16 @@ class ClientTest extends TestCase
     /** @test */
     function it_will_throw_an_exception_if_the_client_is_not_set_in_the_config()
     {
-        $this->expectException(InvalidConfigException::class);
+        $this->expectException(InvalidConfigurationException::class);
 
         $client = new Client(['url' => 'https://imaginary.com']);
         $client->fetch('https://www.google.com/logo.jpg')->url();
     }
-    
+
     /** @test */
     function it_will_throw_an_exception_if_the_config_values_are_null()
     {
-        $this->expectException(InvalidConfigException::class);
+        $this->expectException(InvalidConfigurationException::class);
 
         $client = new Client(['url' => null, 'client' => null]);
         $client->fetch('https://www.google.com/logo.jpg')->url();
@@ -129,8 +130,8 @@ class ClientTest extends TestCase
     /** @test */
     function it_can_define_a_manipulation_set_and_use_it()
     {
-        $this->client->define('thumb', function (Client $client) {
-            $client->width(100)
+        $this->client->define('thumb', function (Builder $builder) {
+            $builder->width(100)
                 ->fit('top');
         });
 
@@ -144,8 +145,8 @@ class ClientTest extends TestCase
     /** @test */
     function it_can_define_a_manipulation_set_and_use_it_with_multiple_parameters()
     {
-        $this->client->define('thumb', function (Client $client, $size) {
-            $client->width($size == 'big' ? 200 : 100)
+        $this->client->define('thumb', function (Builder $builder, $size) {
+            $builder->width($size == 'big' ? 200 : 100)
                 ->fit('top');
 
         });
@@ -174,5 +175,18 @@ class ClientTest extends TestCase
 
         $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/https://www.google.com/logo.jpg', $url);
         $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/https://www.google.com/logo.jpg', $url->url());
+    }
+
+    /** @test */
+    function it_will_be_possible_to_use_the_same_client_for_multiple_fetches_on_different_images()
+    {
+        $first = $this->client->fetch('https://www.google.com/logo.jpg')->width(100);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/https://www.google.com/logo.jpg', $first->url());
+
+        $second = $this->client->fetch('https://www.google.com/logo.jpg');
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/https://www.google.com/logo.jpg', $second->url());
+
+        $third = $this->client->fetch('https://www.google.com/logo.jpg')->width(200)->height(200);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_200,h_200/https://www.google.com/logo.jpg', $third->url());
     }
 }
