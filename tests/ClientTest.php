@@ -58,7 +58,7 @@ class ClientTest extends TestCase
     {
         $url = $this->client->fetch('https://www.google.com/logo.jpg')->url();
 
-        $this->assertEquals('https://imaginary.com/imaginary/image/fetch/https://www.google.com/logo.jpg', $url);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/https://www.google.com/logo.jpg', $url);
     }
 
     /** @test */
@@ -123,7 +123,7 @@ class ClientTest extends TestCase
             ->circle(50)
             ->url();
 
-        $this->assertEquals('https://imaginary.com/imaginary/image/fetch/w_100,h_100,c_fit,g_top,r_50/https://www.google.com/logo.jpg', $url);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100,h_100,c_fit,g_top,r_50/https://www.google.com/logo.jpg', $url);
     }
 
     /** @test */
@@ -138,7 +138,7 @@ class ClientTest extends TestCase
             ->thumb()
             ->url();
 
-        $this->assertEquals('https://imaginary.com/imaginary/image/fetch/w_100,c_fit,g_top/https://www.google.com/logo.jpg', $url);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100,c_fit,g_top/https://www.google.com/logo.jpg', $url);
     }
 
     /** @test */
@@ -154,7 +154,7 @@ class ClientTest extends TestCase
             ->thumb('big')
             ->url();
 
-        $this->assertEquals('https://imaginary.com/imaginary/image/fetch/w_200,c_fit,g_top/https://www.google.com/logo.jpg', $url);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_200,c_fit,g_top/https://www.google.com/logo.jpg', $url);
     }
 
     /** @test */
@@ -172,7 +172,7 @@ class ClientTest extends TestCase
         $url = $this->client->fetch('https://www.google.com/logo.jpg')
             ->width(100);
 
-        $this->assertEquals('https://imaginary.com/imaginary/image/fetch/w_100/https://www.google.com/logo.jpg', $url);
-        $this->assertEquals('https://imaginary.com/imaginary/image/fetch/w_100/https://www.google.com/logo.jpg', $url->url());
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/https://www.google.com/logo.jpg', $url);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/https://www.google.com/logo.jpg', $url->url());
     }
 }

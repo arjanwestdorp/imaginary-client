@@ -164,7 +164,7 @@ class Client
      */
     protected function getResourceKey()
     {
-        return 'image';
+        return 'images';
     }
 
     /**
