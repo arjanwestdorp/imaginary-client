@@ -78,6 +78,7 @@ If you discover any security issues, please email arjanwestdorp@gmail.com instea
 ## Credits
 
 - [Arjan Westdorp](https://github.com/arjanwestdorp)
+- [Trait Development](http://www.trait-development.nl)
 - [All Contributors](../../contributors)
 
 ## License
