@@ -57,9 +57,9 @@ class ClientTest extends TestCase
     /** @test */
     function it_can_generate_a_url_to_fetch_an_image()
     {
-        $url = $this->client->fetch('https://www.google.com/logo.jpg')->url();
+        $url = $this->client->fetch($path = 'https://www.google.com/logo.jpg')->url();
 
-        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/https://www.google.com/logo.jpg', $url);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/' . urlencode($path), $url);
     }
 
     /** @test */
@@ -117,14 +117,14 @@ class ClientTest extends TestCase
     /** @test */
     function it_can_generate_a_url_to_fetch_an_image_with_multiple_manipulations()
     {
-        $url = $this->client->fetch('https://www.google.com/logo.jpg')
+        $url = $this->client->fetch($path = 'https://www.google.com/logo.jpg')
             ->width(100)
             ->height(100)
             ->fit('top')
             ->circle(50)
             ->url();
 
-        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100,h_100,c_fit,g_top,r_50/https://www.google.com/logo.jpg', $url);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100,h_100,c_fit,g_top,r_50/' . urlencode($path), $url);
     }
 
     /** @test */
@@ -135,11 +135,11 @@ class ClientTest extends TestCase
                 ->fit('top');
         });
 
-        $url = $this->client->fetch('https://www.google.com/logo.jpg')
+        $url = $this->client->fetch($path = 'https://www.google.com/logo.jpg')
             ->thumb()
             ->url();
 
-        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100,c_fit,g_top/https://www.google.com/logo.jpg', $url);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100,c_fit,g_top/' . urlencode($path), $url);
     }
 
     /** @test */
@@ -151,11 +151,11 @@ class ClientTest extends TestCase
 
         });
 
-        $url = $this->client->fetch('https://www.google.com/logo.jpg')
+        $url = $this->client->fetch($path = 'https://www.google.com/logo.jpg')
             ->thumb('big')
             ->url();
 
-        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_200,c_fit,g_top/https://www.google.com/logo.jpg', $url);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_200,c_fit,g_top/' . urlencode($path), $url);
     }
 
     /** @test */
@@ -170,23 +170,23 @@ class ClientTest extends TestCase
     /** @test */
     function it_will_show_the_url_string_when_echoing_the_object()
     {
-        $url = $this->client->fetch('https://www.google.com/logo.jpg')
+        $url = $this->client->fetch($path = 'https://www.google.com/logo.jpg')
             ->width(100);
 
-        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/https://www.google.com/logo.jpg', $url);
-        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/https://www.google.com/logo.jpg', $url->url());
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/' . urlencode($path), $url);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/' . urlencode($path), $url->url());
     }
 
     /** @test */
     function it_will_be_possible_to_use_the_same_client_for_multiple_fetches_on_different_images()
     {
-        $first = $this->client->fetch('https://www.google.com/logo.jpg')->width(100);
-        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/https://www.google.com/logo.jpg', $first->url());
+        $first = $this->client->fetch($path = 'https://www.google.com/logo.jpg')->width(100);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_100/' . urlencode($path), $first->url());
 
-        $second = $this->client->fetch('https://www.google.com/logo.jpg');
-        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/https://www.google.com/logo.jpg', $second->url());
+        $second = $this->client->fetch($path = 'https://www.google.com/logo.jpg');
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/' . urlencode($path), $second->url());
 
-        $third = $this->client->fetch('https://www.google.com/logo.jpg')->width(200)->height(200);
-        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_200,h_200/https://www.google.com/logo.jpg', $third->url());
+        $third = $this->client->fetch($path = 'https://www.google.com/logo.jpg')->width(200)->height(200);
+        $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_200,h_200/' . urlencode($path), $third->url());
     }
 }

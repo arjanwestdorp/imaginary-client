@@ -79,7 +79,7 @@ class Client
      */
     public function fetch($url)
     {
-        $this->builder = new Builder($url);
+        $this->builder = new Builder(urlencode($url));
 
         return $this;
     }
