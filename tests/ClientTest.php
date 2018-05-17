@@ -203,7 +203,7 @@ class ClientTest extends TestCase
     /** @test */
     function it_can_have_a_globally_defined_dpr_and_will_use_that_by_default()
     {
-        $this->client->default('dpr', 2);
+        $this->client->setDefault('dpr', 2);
 
         $url = $this->client->fetch('https://www.google.com/logo.jpg')
             ->url();
@@ -220,8 +220,8 @@ class ClientTest extends TestCase
     /** @test */
     public function it_can_set_default_values_for_the_builder()
     {
-        $this->client->default('dpr', 2);
-        $this->client->default('invalid', 'value');
+        $this->client->setDefault('dpr', 2);
+        $this->client->setDefault('invalid', 'value');
 
         $url = $this->client->fetch('https://www.google.com/logo.jpg')
             ->url();

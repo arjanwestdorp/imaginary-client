@@ -101,7 +101,7 @@ class Client
      * @param mixed $value
      * @return $this
      */
-    public function default($key, $value)
+    public function setDefault($key, $value)
     {
         $this->defaults[$key] = $value;
 
