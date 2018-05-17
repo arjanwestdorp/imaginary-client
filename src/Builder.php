@@ -84,6 +84,19 @@ class Builder
     }
 
     /**
+     * Set the desired dpr of the image.
+     *
+     * @param mixed $dpr
+     * @return $this
+     */
+    public function dpr($dpr = 'auto')
+    {
+        $this->manipulations['dpr'] = $dpr;
+
+        return $this;
+    }
+
+    /**
      * Get the string representation of all manipulations that
      * need to be executed on the given resource.
      *

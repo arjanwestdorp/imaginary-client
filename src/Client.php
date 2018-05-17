@@ -20,6 +20,10 @@ class Client
      * @var array
      */
     private $config;
+    /**
+     * @var array
+     */
+    protected $defaults = [];
 
     /**
      * Client constructor.
@@ -81,6 +85,26 @@ class Client
     {
         $this->builder = new Builder(urlencode($url));
 
+        foreach ($this->defaults as $key => $value) {
+            if (method_exists($this->builder, $key)) {
+                call_user_func([$this->builder, $key], $value);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set the default dpr.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     */
+    public function default($key, $value)
+    {
+        $this->defaults[$key] = $value;
+
         return $this;
     }
 
@@ -88,7 +112,6 @@ class Client
      * Retrieve the imaginary url.
      *
      * @return string
-     * @throws InvalidConfigurationException
      */
     public function url()
     {

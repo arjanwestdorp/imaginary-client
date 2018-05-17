@@ -115,6 +115,16 @@ class ClientTest extends TestCase
     }
 
     /** @test */
+    function it_can_generate_a_url_with_a_dpr_modifier()
+    {
+        $url = $this->client->fetch('https://www.google.com/logo.jpg')
+            ->dpr(3)
+            ->url();
+
+        $this->assertContains('dpr_3', $url);
+    }
+
+    /** @test */
     function it_can_generate_a_url_to_fetch_an_image_with_multiple_manipulations()
     {
         $url = $this->client->fetch($path = 'https://www.google.com/logo.jpg')
@@ -188,5 +198,35 @@ class ClientTest extends TestCase
 
         $third = $this->client->fetch($path = 'https://www.google.com/logo.jpg')->width(200)->height(200);
         $this->assertEquals('https://imaginary.com/imaginary/images/fetch/w_200,h_200/' . urlencode($path), $third->url());
+    }
+
+    /** @test */
+    function it_can_have_a_globally_defined_dpr_and_will_use_that_by_default()
+    {
+        $this->client->default('dpr', 2);
+
+        $url = $this->client->fetch('https://www.google.com/logo.jpg')
+            ->url();
+
+        $this->assertContains('dpr_2', $url);
+
+        $url = $this->client->fetch('https://www.google.com/logo.jpg')
+            ->dpr(4)
+            ->url();
+
+        $this->assertContains('dpr_4', $url);
+    }
+
+    /** @test */
+    public function it_can_set_default_values_for_the_builder()
+    {
+        $this->client->default('dpr', 2);
+        $this->client->default('invalid', 'value');
+
+        $url = $this->client->fetch('https://www.google.com/logo.jpg')
+            ->url();
+
+        $this->assertContains('dpr_2', $url);
+        $this->assertNotContains('invalid', $url);
     }
 }
